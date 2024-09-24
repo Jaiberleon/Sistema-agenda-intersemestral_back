@@ -22,7 +22,7 @@ public class UserEntity {
     @NotNull(message = "El numero de identificacion es un campo obligatorio")
     @Column(nullable = false, unique = true)
     private String identificacion;
-    @NotNull(message = "El mobre es un campo obligatorio")
+    @NotNull(message = "El nombre es un campo obligatorio")
     @Column(nullable = false)
     private String nombre;
     @NotNull(message = "El apellido es un campo obligatorio")

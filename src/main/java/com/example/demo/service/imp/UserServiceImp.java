@@ -18,10 +18,10 @@ public class UserServiceImp implements UserService {
     public ResponseDTO<UserEntity> registerUser(UserEntity user) {
         try {
             if (userRepository.findByIdentificacion(user.getIdentificacion()).isPresent() || user.getIdentificacion().isEmpty()) {
-                return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "Validar el numero de identificacion ya esta en uso");
+                return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "Validar el numero de identificacion ya esta registrado");
             }
             if (userRepository.findByEmail(user.getEmail()).isPresent() || user.getEmail().isEmpty()) {
-                return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "El correo ya esta en uso, intente con otra opcion");
+                return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "El correo ya esta registrado, intente con otra opcion");
             }
             userRepository.save(user);
             return new ResponseDTO<>(user, HttpStatus.CREATED.value(), "Registrado correctamente");
