@@ -42,9 +42,13 @@ public class UserServiceImp implements UserService {
     @Override
     public ResponseDTO<String> login(String email, String password) throws Exception {
         try {
-            UserEntity user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new Exception("Usuario no encontrado"));
-
+            UserEntity user = userRepository.findByEmail(email).orElse(null);
+            if (user == null) {
+                return new ResponseDTO<>(null, HttpStatus.NOT_FOUND.value(), "Usuario no encontrado");
+            }
+            if (user.getRoles().isEmpty()) {
+                return new ResponseDTO<>(null, HttpStatus.FORBIDDEN.value(), "No se le ha asignado un rol. Contacte al administrador.");
+            }
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Contraseña incorrecta");
             }
