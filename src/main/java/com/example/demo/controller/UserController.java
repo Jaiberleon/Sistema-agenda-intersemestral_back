@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.ResponseDTO;
+import com.example.demo.dto.UserRequestDto;
 import com.example.demo.model.UserEntity;
 import com.example.demo.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseDTO<UserEntity> registerUser (@Validated @RequestBody UserEntity user){
+    public ResponseDTO<UserEntity> registerUser (@Validated @RequestBody UserRequestDto user){
         return userService.registerUser(user);
     }
 
