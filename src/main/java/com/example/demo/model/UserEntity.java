@@ -39,6 +39,14 @@ public class UserEntity {
     @Column(nullable = false)
     private Boolean active = true;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "facultad_id", nullable = true)
+    private FacultadEntity facultad;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "programa_id", nullable = true)
+    private ProgramaEntity programa;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",
