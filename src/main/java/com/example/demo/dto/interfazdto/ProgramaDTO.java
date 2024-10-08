@@ -1,4 +1,4 @@
-package com.example.demo.dto.interfazDto;
+package com.example.demo.dto.interfazdto;
 
 public interface ProgramaDTO {
 

@@ -1,8 +1,7 @@
 package com.example.demo.repository;
 
-import com.example.demo.dto.interfazDto.FacultadDto;
-import com.example.demo.dto.interfazDto.ProgramaDTO;
-import com.example.demo.model.FacultadEntity;
+import com.example.demo.dto.interfazdto.FacultadDto;
+import com.example.demo.dto.interfazdto.ProgramaDTO;
 import com.example.demo.model.ProgramaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

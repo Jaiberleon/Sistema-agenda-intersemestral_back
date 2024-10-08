@@ -1,10 +1,8 @@
 package com.example.demo.service.imp;
 
 import com.example.demo.dto.ResponseDTO;
-import com.example.demo.dto.interfazDto.FacultadDto;
-import com.example.demo.dto.interfazDto.ProgramaDTO;
-import com.example.demo.model.FacultadEntity;
-import com.example.demo.model.ProgramaEntity;
+import com.example.demo.dto.interfazdto.FacultadDto;
+import com.example.demo.dto.interfazdto.ProgramaDTO;
 import com.example.demo.repository.ProgramaRepository;
 import com.example.demo.service.ProgramaService;
 import lombok.RequiredArgsConstructor;
