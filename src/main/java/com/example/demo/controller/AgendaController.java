@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AgendaValidDto;
 import com.example.demo.dto.ResponseDTO;
+import com.example.demo.dto.interfazdto.AgendaDTO;
 import com.example.demo.model.AgendasValid;
 import com.example.demo.service.AgendasValidService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin ("*")
 @RequestMapping(path = "/api/agendas")
+@RequiredArgsConstructor
 public class AgendaController {
-@Autowired
-private AgendasValidService agendasValidService;
+
+private final AgendasValidService agendasValidService;
 
     @PostMapping("/upload")
     public ResponseDTO<AgendasValid>  saveAgenda(  @RequestParam("file") MultipartFile file,
@@ -28,12 +29,11 @@ private AgendasValidService agendasValidService;
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<AgendasValid>> getAgendasByUser(@PathVariable Long userId) {
-        List<AgendasValid> agendas = agendasValidService.getAgendasByUserId(userId);
+    public ResponseEntity<List<AgendaDTO>> getAgendasByUser(@PathVariable Long userId) {
+        List<AgendaDTO> agendas = agendasValidService.getAgendasByUserId(userId);
         return ResponseEntity.ok(agendas);
     }
 
-    // Descargar el archivo de una agenda específica
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
         AgendasValid agenda = agendasValidService.getAgendaById(id);
@@ -41,5 +41,12 @@ private AgendasValidService agendasValidService;
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Agenda_" + agenda.getDocente().getNombre() + ".xlsx")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(agenda.getArchivo());
+    }
+
+
+    @GetMapping("/agenprograma/{programaId}")
+    public ResponseDTO<List<AgendaDTO>> getAgendasToDirector (@PathVariable Long programaId) {
+        return agendasValidService.getAgendasToDirector(programaId);
+
     }
 }

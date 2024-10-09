@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.interfazdto.AgendaDTO;
 import com.example.demo.model.AgendasValid;
-import com.example.demo.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +11,13 @@ import java.util.List;
 @Repository
 public interface AgendasValidRepository extends JpaRepository<AgendasValid,Long> {
 
-    @Query(value = "select * from agendas_valid where user_id =:userid  " , nativeQuery = true)
-    List<AgendasValid> findAllByuser(@Param("userid") Long userId);
+    @Query(value = "select va.id as id, va.nombre_archivo as nombreArchivo, f.name as facultad, p.nombre as programa, va.fecha_creacion as fechaCreacion, va.aprobacion_decano as aprobacionDecano, va.aprobacion_director_programa as aprobacionDirectorPrograma from agendas_valid va LEFT JOIN facultad f ON f.facultad_id = va.facultad_id LEFT JOIN programa p ON p.id = va.programa_id  where va.user_id = :userid order by va.fecha_creacion desc" , nativeQuery = true)
+    List<AgendaDTO> findAllByuser(@Param("userid") Long userId);
+
+
+    @Query (value = "select va.id as id, va.nombre_archivo as nombreArchivo, f.name as facultad, p.nombre as programa, va.fecha_creacion as fechaCreacion, va.aprobacion_decano as aprobacionDecano, va.aprobacion_director_programa as aprobacionDirectorPrograma from agendas_valid va LEFT JOIN facultad f ON f.facultad_id = va.facultad_id LEFT JOIN programa p ON p.id = va.programa_id  where va.programa_id = :programaId and va.aprobacion_director_programa is null order by va.fecha_creacion desc", nativeQuery = true)
+    List<AgendaDTO> findAllToDirector (@Param("programaId") Long programaId);
+
+
 
 }

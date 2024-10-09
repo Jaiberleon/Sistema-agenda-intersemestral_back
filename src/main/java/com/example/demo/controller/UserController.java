@@ -6,7 +6,6 @@ import com.example.demo.dto.UserRequestDto;
 import com.example.demo.model.UserEntity;
 import com.example.demo.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

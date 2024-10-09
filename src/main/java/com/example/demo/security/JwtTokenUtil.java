@@ -19,6 +19,9 @@ public class JwtTokenUtil {
         claims.put("role", user.getRoles().stream().findFirst().get().getRoleName());
         claims.put("name", user.getNombre() +" " + user.getApellido());
         claims.put("idUser", user.getUserId());
+        claims.put("email", user.getEmail());
+        claims.put("facultad", user.getFacultad() != null ? user.getFacultad().getName() : null);
+        claims.put("programa", user.getPrograma() != null ? user.getPrograma().getNombre() : null);
 
         return Jwts.builder()
                 .setClaims(claims)
