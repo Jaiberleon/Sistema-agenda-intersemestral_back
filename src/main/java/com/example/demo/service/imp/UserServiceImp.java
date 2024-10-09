@@ -52,16 +52,17 @@ public class UserServiceImp implements UserService {
             users.setPassword(user.getPassword());
             Optional<RoleEntity> rol = roleRepository.findById(user.getRol());
             Optional<FacultadEntity> facultad = facultadRepository.findById(user.getFacultad());
-            Optional<ProgramaEntity> programa = programaRepository.findById(user.getPrograma());
-            if (rol.isPresent() && facultad.isPresent() && programa.isPresent()) {
+
+            if (user.getPrograma() != null) {
+                Optional<ProgramaEntity> programa = programaRepository.findById(user.getPrograma());
+                ProgramaEntity programaEntity = programa.get();
+                users.setPrograma(programaEntity);
+            }
+            if (rol.isPresent() && facultad.isPresent() ) {
                 RoleEntity roleEntity = rol.get();
                 FacultadEntity facultadEntity = facultad.get();
-                ProgramaEntity programaEntity = programa.get();
-
                 users.setRoles(new HashSet<>(Collections.singletonList(roleEntity)));
                 users.setFacultad(facultadEntity);
-                users.setPrograma(programaEntity);
-
                 userRepository.save(users);
             } else {
                 throw new EntityNotFoundException("Uno o más registros no encontrados");
