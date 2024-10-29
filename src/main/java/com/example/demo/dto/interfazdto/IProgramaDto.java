@@ -1,6 +1,6 @@
 package com.example.demo.dto.interfazdto;
 
-public interface ProgramaDTO {
+public interface IProgramaDto {
 
     Long getId();
     String getNombre();

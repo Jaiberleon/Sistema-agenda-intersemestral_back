@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
-import com.example.demo.dto.interfazdto.FacultadDto;
-import com.example.demo.dto.interfazdto.ProgramaDTO;
+import com.example.demo.dto.interfazdto.IFacultyDto;
+import com.example.demo.dto.interfazdto.IProgramaDto;
 import com.example.demo.model.ProgramEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,8 +14,8 @@ import java.util.List;
 public interface ProgramaRepository extends JpaRepository<ProgramEntity,Long> {
 
     @Query(value = "SELECT p.id as id, p.nombre as nombre  FROM programa p WHERE facultad_id = :facultadid" ,nativeQuery = true)
-    List<ProgramaDTO> findByFacultadId (@Param("facultadid") Long facultadId);
+    List<IProgramaDto> findByFacultadId (@Param("facultadid") Long facultadId);
 
     @Query(value = "SELECT f.facultad_id as facultadId, f.name as name   FROM facultad f",nativeQuery = true)
-    List<FacultadDto> finAllFacultad ();
+    List<IFacultyDto> finAllFacultad ();
 }

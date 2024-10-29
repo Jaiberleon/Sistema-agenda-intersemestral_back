@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ResponseDTO;
+import com.example.demo.dto.ResponseDto;
 import com.example.demo.model.UserEntity;
 import com.example.demo.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class AdminController {
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseDTO<List<UserEntity>> getUsers() {
+    public ResponseDto<List<UserEntity>> getUsers() {
         return adminService.getUsers();
     }
 }

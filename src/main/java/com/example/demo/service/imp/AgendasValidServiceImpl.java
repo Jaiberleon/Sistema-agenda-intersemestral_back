@@ -1,8 +1,8 @@
 package com.example.demo.service.imp;
 
 
-import com.example.demo.dto.ResponseDTO;
-import com.example.demo.dto.interfazdto.AgendaDTO;
+import com.example.demo.dto.ResponseDto;
+import com.example.demo.dto.interfazdto.IAgendaDto;
 import com.example.demo.model.AgendasValid;
 import com.example.demo.model.UserEntity;
 import com.example.demo.repository.AgendasValidRepository;
@@ -23,7 +23,7 @@ public class AgendasValidServiceImpl implements AgendasValidService {
     private final UserRepository userRepository;
 
     @Override
-    public List<AgendaDTO> getAgendasByUserId(Long userId) {
+    public List<IAgendaDto> getAgendasByUserId(Long userId) {
         return agendasValidRepository.findAllByuser(userId);
     }
 
@@ -34,7 +34,7 @@ public class AgendasValidServiceImpl implements AgendasValidService {
         }
 
     @Override
-    public ResponseDTO<AgendasValid> saveAgenda(MultipartFile file, Long userId, String facultad, String programa) {
+    public ResponseDto<AgendasValid> saveAgenda(MultipartFile file, Long userId, String facultad, String programa) {
         try {
                 UserEntity user = userRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -47,41 +47,41 @@ public class AgendasValidServiceImpl implements AgendasValidService {
             agenda.setArchivo(file.getBytes());
             agenda.setDocente(user);
             agendasValidRepository.save(agenda);
-            return new ResponseDTO<>(null, HttpStatus.CREATED.value(), "Agenda creada correctamente");
+            return new ResponseDto<>(null, HttpStatus.CREATED.value(), "Agenda creada correctamente");
         } catch (Exception e){
-            return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Ocurrio un error en el guardado de la agenda: "+e.getMessage());
+            return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Ocurrio un error en el guardado de la agenda: "+e.getMessage());
     }
     }
 
     @Override
-    public ResponseDTO<List<AgendaDTO>> getAgendasToDirector(Long programaId) {
+    public ResponseDto<List<IAgendaDto>> getAgendasToDirector(Long programaId) {
         try {UserEntity user = userRepository.findById(programaId)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(programaId);
             if (role.equals("Director De programa")){
-                List<AgendaDTO> agendas = agendasValidRepository.findAllToDirector(user.getPrograma().getId());
-                return new ResponseDTO<>(agendas,HttpStatus.OK.value(), "OK");
+                List<IAgendaDto> agendas = agendasValidRepository.findAllToDirector(user.getPrograma().getId());
+                return new ResponseDto<>(agendas,HttpStatus.OK.value(), "OK");
             }else {
-                return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
+                return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
             }
         } catch (Exception e) {
-            return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Error en el servicio");
+            return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Error en el servicio");
         }
     }
 
     @Override
-    public ResponseDTO<List<AgendaDTO>> getAgendasToDirectorHistorico(Long programaId) {
+    public ResponseDto<List<IAgendaDto>> getAgendasToDirectorHistorico(Long programaId) {
         try {UserEntity user = userRepository.findById(programaId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(programaId);
             if (role.equals("Director De programa")){
-                List<AgendaDTO> agendas = agendasValidRepository.findAllForHistoricDirector(user.getPrograma().getId());
-                return new ResponseDTO<>(agendas,HttpStatus.OK.value(), "OK");
+                List<IAgendaDto> agendas = agendasValidRepository.findAllForHistoricDirector(user.getPrograma().getId());
+                return new ResponseDto<>(agendas,HttpStatus.OK.value(), "OK");
             }else {
-                return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
+                return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
             }
         } catch (Exception e) {
-            return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Error en el servicio");
+            return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Error en el servicio");
         }
     }
 

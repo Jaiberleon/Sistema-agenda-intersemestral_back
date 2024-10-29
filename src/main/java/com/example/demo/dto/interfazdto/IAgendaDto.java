@@ -3,7 +3,7 @@ package com.example.demo.dto.interfazdto;
 
 import java.time.LocalDateTime;
 
-public interface AgendaDTO {
+public interface IAgendaDto {
    Long getId();
    String getNombreArchivo();
    String getFacultad();

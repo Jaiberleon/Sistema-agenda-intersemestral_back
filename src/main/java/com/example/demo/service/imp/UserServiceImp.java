@@ -1,6 +1,6 @@
 package com.example.demo.service.imp;
 
-import com.example.demo.dto.ResponseDTO;
+import com.example.demo.dto.ResponseDto;
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.model.FacultyEntity;
 import com.example.demo.model.ProgramEntity;
@@ -35,13 +35,13 @@ public class UserServiceImp implements UserService {
     private ProgramaRepository programaRepository;
 
     @Override
-    public ResponseDTO<UserEntity> registerUser(UserRequestDto user) {
+    public ResponseDto<UserEntity> registerUser(UserRequestDto user) {
         try {
             if (userRepository.findByIdentificacion(user.getIdentificacion()).isPresent() || user.getIdentificacion().isEmpty()) {
-                return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "Validar el numero de identificacion ya esta registrado");
+                return new ResponseDto<>(null, HttpStatus.BAD_REQUEST.value(), "Validar el numero de identificacion ya esta registrado");
             }
             if (userRepository.findByEmail(user.getEmail()).isPresent() || user.getEmail().isEmpty()) {
-                return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "El correo ya esta registrado, intente con otra opcion");
+                return new ResponseDto<>(null, HttpStatus.BAD_REQUEST.value(), "El correo ya esta registrado, intente con otra opcion");
             }
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             UserEntity users = new UserEntity();
@@ -66,31 +66,31 @@ public class UserServiceImp implements UserService {
                 userRepository.save(users);
             } else {
                 throw new EntityNotFoundException("Uno o más registros no encontrados");
-            }return new ResponseDTO<>(users, HttpStatus.CREATED.value(), "Registrado correctamente");
+            }return new ResponseDto<>(users, HttpStatus.CREATED.value(), "Registrado correctamente");
 
         } catch (Exception e) {
-            return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "Ocurrio un problema en el proceso de registro");
+            return new ResponseDto<>(null, HttpStatus.BAD_REQUEST.value(), "Ocurrio un problema en el proceso de registro");
         }
 
     }
 
     @Override
-    public ResponseDTO<String> login(String email, String password) throws Exception {
+    public ResponseDto<String> login(String email, String password) throws Exception {
         try {
             UserEntity user = userRepository.findByEmail(email).orElse(null);
             if (user == null) {
-                return new ResponseDTO<>(null, HttpStatus.NOT_FOUND.value(), "Usuario no encontrado");
+                return new ResponseDto<>(null, HttpStatus.NOT_FOUND.value(), "Usuario no encontrado");
             }
             if (user.getRoles().isEmpty()) {
-                return new ResponseDTO<>(null, HttpStatus.FORBIDDEN.value(), "No se le ha asignado un rol. Contacte al administrador.");
+                return new ResponseDto<>(null, HttpStatus.FORBIDDEN.value(), "No se le ha asignado un rol. Contacte al administrador.");
             }
             if (!passwordEncoder.matches(password, user.getPassword())) {
-                return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Contraseña incorrecta");
+                return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Contraseña incorrecta");
             }
             String token = jwtTokenUtil.generateToken(user);
-            return new ResponseDTO<>(token,HttpStatus.OK.value(),"Login exitoso");
+            return new ResponseDto<>(token,HttpStatus.OK.value(),"Login exitoso");
         } catch (Exception e) {
-            return new ResponseDTO<>(null, HttpStatus.BAD_REQUEST.value(), "Ocurrio un problema en el proceso Logueo");
+            return new ResponseDto<>(null, HttpStatus.BAD_REQUEST.value(), "Ocurrio un problema en el proceso Logueo");
         }
 
     }

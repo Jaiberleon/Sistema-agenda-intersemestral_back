@@ -1,6 +1,6 @@
 package com.example.demo.dto.interfazdto;
 
-public interface FacultadDto {
+public interface IFacultyDto {
 
      Long getFacultadId();
      String getName();
