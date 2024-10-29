@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.ResponseDTO;
 import com.example.demo.model.UserEntity;
 import com.example.demo.service.AdminService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +15,14 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/admin")
 @CrossOrigin("*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AdminController {
 
-    private AdminService adminService;
+    private final AdminService adminService;
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseDTO<List<UserEntity>> user (){
-        return adminService.users();
+    public ResponseDTO<List<UserEntity>> getUsers() {
+        return adminService.getUsers();
     }
 }

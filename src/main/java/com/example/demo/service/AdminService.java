@@ -6,5 +6,5 @@ import com.example.demo.model.UserEntity;
 import java.util.List;
 
 public interface AdminService {
-    ResponseDTO<List<UserEntity>> users ();
+    ResponseDTO<List<UserEntity>> getUsers ();
 }
