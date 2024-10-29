@@ -1,16 +1,12 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "agendas_valid")
@@ -41,10 +37,10 @@ public class AgendasValid {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "programa_id", nullable = false)
-    private ProgramaEntity programa;
+    private ProgramEntity programa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facultad_id", nullable = false)
-    private FacultadEntity facultad;
+    private FacultyEntity facultad;
 }
 

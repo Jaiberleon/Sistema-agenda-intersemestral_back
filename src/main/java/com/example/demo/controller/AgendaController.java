@@ -49,4 +49,10 @@ private final AgendasValidService agendasValidService;
         return agendasValidService.getAgendasToDirector(programaId);
 
     }
+
+    @GetMapping("/agenprogramahistorico/{programaId}")
+    public ResponseDTO<List<AgendaDTO>> getAgendasToDirectorHistorico (@PathVariable Long programaId) {
+        return agendasValidService.getAgendasToDirectorHistorico(programaId);
+
+    }
 }

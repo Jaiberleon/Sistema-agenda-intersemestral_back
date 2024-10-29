@@ -22,7 +22,6 @@ public class AgendasValidServiceImpl implements AgendasValidService {
     private final AgendasValidRepository agendasValidRepository;
     private final UserRepository userRepository;
 
-
     @Override
     public List<AgendaDTO> getAgendasByUserId(Long userId) {
         return agendasValidRepository.findAllByuser(userId);
@@ -61,6 +60,22 @@ public class AgendasValidServiceImpl implements AgendasValidService {
             String role = userRepository.getRole(programaId);
             if (role.equals("Director De programa")){
                 List<AgendaDTO> agendas = agendasValidRepository.findAllToDirector(user.getPrograma().getId());
+                return new ResponseDTO<>(agendas,HttpStatus.OK.value(), "OK");
+            }else {
+                return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
+            }
+        } catch (Exception e) {
+            return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Error en el servicio");
+        }
+    }
+
+    @Override
+    public ResponseDTO<List<AgendaDTO>> getAgendasToDirectorHistorico(Long programaId) {
+        try {UserEntity user = userRepository.findById(programaId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            String role = userRepository.getRole(programaId);
+            if (role.equals("Director De programa")){
+                List<AgendaDTO> agendas = agendasValidRepository.findAllForHistoricDirector(user.getPrograma().getId());
                 return new ResponseDTO<>(agendas,HttpStatus.OK.value(), "OK");
             }else {
                 return new ResponseDTO<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");

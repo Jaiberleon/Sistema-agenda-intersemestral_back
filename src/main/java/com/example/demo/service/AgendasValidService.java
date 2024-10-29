@@ -13,4 +13,5 @@ public interface AgendasValidService {
     AgendasValid getAgendaById(Long id);
     ResponseDTO<AgendasValid> saveAgenda(MultipartFile file, Long userId,String facultad, String programa);
     ResponseDTO<List<AgendaDTO>> getAgendasToDirector(Long programaId);
+    ResponseDTO<List<AgendaDTO>> getAgendasToDirectorHistorico(Long programaId);
 }

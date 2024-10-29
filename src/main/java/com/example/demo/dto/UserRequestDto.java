@@ -1,8 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.model.FacultadEntity;
-import com.example.demo.model.ProgramaEntity;
-import com.example.demo.model.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

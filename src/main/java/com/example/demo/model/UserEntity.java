@@ -12,40 +12,46 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-    @NotNull(message = "El numero de identificacion es un campo obligatorio")
-    @Column(nullable = false, unique = true)
-    private String identificacion;
-    @NotNull(message = "El nombre es un campo obligatorio")
-    @Column(nullable = false)
-    private String nombre;
-    @NotNull(message = "El apellido es un campo obligatorio")
-    @Column(nullable = false)
-    private String apellido;
-    @Email(message = "El email debe ser válido")
-    @NotNull(message = "El email es un campo obligatorio")
+    @Column(name = "user_id")
+    private Long id;
+
+    @NotNull(message = "Identification number is required")
+    @Column(name = "identification", nullable = false, unique = true)
+    private String identification;
+
+    @NotNull(message = "First name is required")
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @NotNull(message = "Last name is required")
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Email(message = "Email must be valid")
+    @NotNull(message = "Email is required")
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull(message = "Password is required")
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private Boolean active = true;
+    private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "facultad_id", nullable = true)
-    private FacultadEntity facultad;
+    @JoinColumn(name = "faculty_id")
+    private FacultyEntity faculty;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "programa_id", nullable = true)
-    private ProgramaEntity programa;
+    @JoinColumn(name = "program_id")
+    private ProgramEntity program;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(

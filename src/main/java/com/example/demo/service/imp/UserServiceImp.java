@@ -2,8 +2,8 @@ package com.example.demo.service.imp;
 
 import com.example.demo.dto.ResponseDTO;
 import com.example.demo.dto.UserRequestDto;
-import com.example.demo.model.FacultadEntity;
-import com.example.demo.model.ProgramaEntity;
+import com.example.demo.model.FacultyEntity;
+import com.example.demo.model.ProgramEntity;
 import com.example.demo.model.RoleEntity;
 import com.example.demo.model.UserEntity;
 import com.example.demo.repository.FacultadRepository;
@@ -45,24 +45,24 @@ public class UserServiceImp implements UserService {
             }
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             UserEntity users = new UserEntity();
-            users.setNombre(user.getNombre());
-            users.setApellido(user.getApellido());
-            users.setIdentificacion(user.getIdentificacion());
+            users.setFirstName(user.getNombre());
+            users.setLastName(user.getApellido());
+            users.setIdentification(user.getIdentificacion());
             users.setEmail(user.getEmail());
             users.setPassword(user.getPassword());
             Optional<RoleEntity> rol = roleRepository.findById(user.getRol());
-            Optional<FacultadEntity> facultad = facultadRepository.findById(user.getFacultad());
+            Optional<FacultyEntity> facultad = facultadRepository.findById(user.getFacultad());
 
             if (user.getPrograma() != null) {
-                Optional<ProgramaEntity> programa = programaRepository.findById(user.getPrograma());
-                ProgramaEntity programaEntity = programa.get();
-                users.setPrograma(programaEntity);
+                Optional<ProgramEntity> programa = programaRepository.findById(user.getPrograma());
+                ProgramEntity programaEntity = programa.get();
+                users.setProgram(programaEntity);
             }
             if (rol.isPresent() && facultad.isPresent() ) {
                 RoleEntity roleEntity = rol.get();
-                FacultadEntity facultadEntity = facultad.get();
+                FacultyEntity facultadEntity = facultad.get();
                 users.setRoles(new HashSet<>(Collections.singletonList(roleEntity)));
-                users.setFacultad(facultadEntity);
+                users.setFaculty(facultadEntity);
                 userRepository.save(users);
             } else {
                 throw new EntityNotFoundException("Uno o más registros no encontrados");
