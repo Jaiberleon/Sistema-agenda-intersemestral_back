@@ -21,36 +21,38 @@ public class AgendaController {
 
 private final AgendasValidService agendasValidService;
 
-    @PostMapping("/upload")
-    public ResponseDto<AgendasValid> saveAgenda(@RequestParam("file") MultipartFile file,
-                                                @RequestParam("userId") Long userId,
-                                                @RequestParam("facultad") String facultad, @RequestParam("programa") String programa){
-        return agendasValidService.saveAgenda(file,userId,facultad,programa);
+    @PostMapping(path = "/upload")
+    public ResponseDto<AgendasValid> uploadAgenda(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("userId") Long userId,
+            @RequestParam("faculty") String faculty,
+            @RequestParam("program") String program) {
+        return agendasValidService.saveAgenda(file, userId, faculty, program);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping(path = "/user/{userId}")
     public ResponseEntity<List<IAgendaDto>> getAgendasByUser(@PathVariable Long userId) {
         List<IAgendaDto> agendas = agendasValidService.getAgendasByUserId(userId);
         return ResponseEntity.ok(agendas);
     }
 
-    @GetMapping("/download/{id}")
+    @GetMapping(path = "/download/{id}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
         AgendasValid agenda = agendasValidService.getAgendaById(id);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Agenda_" + agenda.getDocente().getNombre() + ".xlsx")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" +agenda.getFileName())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(agenda.getArchivo());
+                .body(agenda.getFile());
     }
 
 
-    @GetMapping("/agenprograma/{programaId}")
+    @GetMapping(path = "/agenprograma/{programaId}")
     public ResponseDto<List<IAgendaDto>> getAgendasToDirector (@PathVariable Long programaId) {
         return agendasValidService.getAgendasToDirector(programaId);
 
     }
 
-    @GetMapping("/agenprogramahistorico/{programaId}")
+    @GetMapping(path = "/agenprogramahistorico/{programaId}")
     public ResponseDto<List<IAgendaDto>> getAgendasToDirectorHistorico (@PathVariable Long programaId) {
         return agendasValidService.getAgendasToDirectorHistorico(programaId);
 

@@ -40,12 +40,12 @@ public class AgendasValidServiceImpl implements AgendasValidService {
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
             AgendasValid agenda = new AgendasValid();
-            agenda.setNombreArchivo(file.getOriginalFilename());
-            agenda.setFacultad(user.getFacultad());
-            agenda.setPrograma(user.getPrograma());
-            agenda.setFechaCreacion(LocalDateTime.now());
-            agenda.setArchivo(file.getBytes());
-            agenda.setDocente(user);
+            agenda.setFileName(file.getOriginalFilename());
+            agenda.setFaculty(user.getFaculty());
+            agenda.setProgram(user.getProgram());
+            agenda.setCreationDate(LocalDateTime.now());
+            agenda.setFile(file.getBytes());
+            agenda.setTeacher(user);
             agendasValidRepository.save(agenda);
             return new ResponseDto<>(null, HttpStatus.CREATED.value(), "Agenda creada correctamente");
         } catch (Exception e){
@@ -59,7 +59,7 @@ public class AgendasValidServiceImpl implements AgendasValidService {
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(programaId);
             if (role.equals("Director De programa")){
-                List<IAgendaDto> agendas = agendasValidRepository.findAllToDirector(user.getPrograma().getId());
+                List<IAgendaDto> agendas = agendasValidRepository.findAllToDirector(user.getProgram().getId());
                 return new ResponseDto<>(agendas,HttpStatus.OK.value(), "OK");
             }else {
                 return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
@@ -75,7 +75,7 @@ public class AgendasValidServiceImpl implements AgendasValidService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(programaId);
             if (role.equals("Director De programa")){
-                List<IAgendaDto> agendas = agendasValidRepository.findAllForHistoricDirector(user.getPrograma().getId());
+                List<IAgendaDto> agendas = agendasValidRepository.findAllForHistoricDirector(user.getProgram().getId());
                 return new ResponseDto<>(agendas,HttpStatus.OK.value(), "OK");
             }else {
                 return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");

@@ -37,7 +37,7 @@ public class UserServiceImp implements UserService {
     @Override
     public ResponseDto<UserEntity> registerUser(UserRequestDto user) {
         try {
-            if (userRepository.findByIdentificacion(user.getIdentificacion()).isPresent() || user.getIdentificacion().isEmpty()) {
+            if (userRepository.findByIdentification(user.getIdentificacion()).isPresent() || user.getIdentificacion().isEmpty()) {
                 return new ResponseDto<>(null, HttpStatus.BAD_REQUEST.value(), "Validar el numero de identificacion ya esta registrado");
             }
             if (userRepository.findByEmail(user.getEmail()).isPresent() || user.getEmail().isEmpty()) {

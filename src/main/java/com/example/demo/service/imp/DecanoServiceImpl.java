@@ -28,7 +28,7 @@ public class DecanoServiceImpl implements DecanoService {
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(idUsuario);
             if (role.equals("Decano")){
-                List<IAgendaDto> agendas = agendasValidRepository.findAllForAproveDecano(user.getFacultad().getFacultadId());
+                List<IAgendaDto> agendas = agendasValidRepository.findAllForAproveDecano(user.getFaculty().getId());
                 return new ResponseDto<>(agendas, HttpStatus.OK.value(), "OK");
             }else {
                 return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
@@ -45,7 +45,7 @@ public class DecanoServiceImpl implements DecanoService {
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(idUsuario);
             if (role.equals("Decano")){
-                List<IAgendaDto> agendas = agendasValidRepository.findAllForHistoricoDecano(user.getFacultad().getFacultadId());
+                List<IAgendaDto> agendas = agendasValidRepository.findAllForHistoricoDecano(user.getFaculty().getId());
                 return new ResponseDto<>(agendas, HttpStatus.OK.value(), "OK");
             }else {
                 return new ResponseDto<>(null,HttpStatus.BAD_REQUEST.value(), "Valida tu rol");
@@ -59,8 +59,8 @@ public class DecanoServiceImpl implements DecanoService {
     public ResponseDto<AgendasValid> updateStatusAgendaDecano(MultipartFile file, boolean desicion, Long id) {
         try {
             AgendasValid agenda = agendasValidRepository.findById(id).orElseThrow(() -> new RuntimeException("Agenda no encontrada"));
-            agenda.setArchivo(file.getBytes());
-            agenda.setAprobacionDecano(desicion);
+            agenda.setFile(file.getBytes());
+            agenda.setDeanApproval(desicion);
             agendasValidRepository.save(agenda);
             return new ResponseDto<>(null, HttpStatus.CREATED.value(), "Agenda creada correctamente");
         } catch (Exception e){

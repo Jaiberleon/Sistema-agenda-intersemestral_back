@@ -16,12 +16,12 @@ public class JwtTokenUtil {
 
     public String generateToken(UserEntity user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRoles().stream().findFirst().get().getRoleName());
-        claims.put("name", user.getNombre() +" " + user.getApellido());
-        claims.put("idUser", user.getUserId());
+        claims.put("role", user.getRoles().stream().findFirst().get().getName());
+        claims.put("name", user.getFirstName() +" " + user.getLastName());
+        claims.put("idUser", user.getId());
         claims.put("email", user.getEmail());
-        claims.put("facultad", user.getFacultad() != null ? user.getFacultad().getName() : null);
-        claims.put("programa", user.getPrograma() != null ? user.getPrograma().getNombre() : null);
+        claims.put("facultad", user.getFaculty() != null ? user.getFaculty().getName() : null);
+        claims.put("programa", user.getProgram() != null ? user.getProgram().getName() : null);
 
         return Jwts.builder()
                 .setClaims(claims)

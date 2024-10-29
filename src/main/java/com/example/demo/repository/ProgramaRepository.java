@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public interface ProgramaRepository extends JpaRepository<ProgramEntity,Long> {
 
-    @Query(value = "SELECT p.id as id, p.nombre as nombre  FROM programa p WHERE facultad_id = :facultadid" ,nativeQuery = true)
-    List<IProgramaDto> findByFacultadId (@Param("facultadid") Long facultadId);
+    @Query(value = "SELECT p.id AS id, p.name AS name FROM program p WHERE p.faculty_id = :facultyId", nativeQuery = true)
+    List<IProgramaDto> findByFacultadId (@Param("facultyId") Long facultadId);
 
-    @Query(value = "SELECT f.facultad_id as facultadId, f.name as name   FROM facultad f",nativeQuery = true)
+    @Query(value = "SELECT f.faculty_id AS facultyId, f.name AS name FROM faculty f", nativeQuery = true)
     List<IFacultyDto> finAllFacultad ();
 }

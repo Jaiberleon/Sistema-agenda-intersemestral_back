@@ -43,8 +43,8 @@ public class ProgramaServiceImpl implements ProgramaService {
     public ResponseDto<AgendasValid> updateStatusAgenda(MultipartFile file, boolean desicion, Long id) {
         try {
             AgendasValid agenda = agendasValidRepository.findById(id).orElseThrow(() -> new RuntimeException("Agenda no encontrada"));
-            agenda.setArchivo(file.getBytes());
-            agenda.setAprobacionDirectorPrograma(desicion);
+            agenda.setFile(file.getBytes());
+            agenda.setProgramDirectorApproval(desicion);
             agendasValidRepository.save(agenda);
             return new ResponseDto<>(null, HttpStatus.CREATED.value(), "Agenda creada correctamente");
         } catch (Exception e){

@@ -11,21 +11,44 @@ import java.util.List;
 @Repository
 public interface AgendasValidRepository extends JpaRepository<AgendasValid,Long> {
 
-    @Query(value = "select va.id as id, va.nombre_archivo as nombreArchivo, f.name as facultad, p.nombre as programa, va.fecha_creacion as fechaCreacion, va.aprobacion_decano as aprobacionDecano, va.aprobacion_director_programa as aprobacionDirectorPrograma from agendas_valid va LEFT JOIN facultad f ON f.facultad_id = va.facultad_id LEFT JOIN programa p ON p.id = va.programa_id  where va.user_id = :userid order by va.fecha_creacion desc" , nativeQuery = true)
-    List<IAgendaDto> findAllByuser(@Param("userid") Long userId);
+    @Query(value = "SELECT av.id AS id, av.file_name AS fileName, f.name AS faculty, p.name AS program, av.creation_date AS creationDate, av.dean_approval AS deanApproval, av.program_director_approval AS programDirectorApproval " +
+            "FROM agendas_valid av " +
+            "LEFT JOIN faculty f ON f.faculty_id = av.faculty_id " +
+            "LEFT JOIN program p ON p.id = av.program_id " +
+            "WHERE av.user_id = :userId " +
+            "ORDER BY av.creation_date DESC", nativeQuery = true)
+    List<IAgendaDto> findAllByuser(@Param("userId") Long userId);
 
+    @Query(value = "SELECT av.id AS id, av.file_name AS fileName, f.name AS faculty, p.name AS program, av.creation_date AS creationDate, av.dean_approval AS deanApproval, av.program_director_approval AS programDirectorApproval " +
+            "FROM agendas_valid av " +
+            "LEFT JOIN faculty f ON f.faculty_id = av.faculty_id " +
+            "LEFT JOIN program p ON p.id = av.program_id " +
+            "WHERE av.program_id = :programId AND av.program_director_approval IS NULL " +
+            "ORDER BY av.creation_date DESC", nativeQuery = true)
+    List<IAgendaDto> findAllToDirector(@Param("programId") Long programId);
 
-    @Query (value = "select va.id as id, va.nombre_archivo as nombreArchivo, f.name as facultad, p.nombre as programa, va.fecha_creacion as fechaCreacion, va.aprobacion_decano as aprobacionDecano, va.aprobacion_director_programa as aprobacionDirectorPrograma from agendas_valid va LEFT JOIN facultad f ON f.facultad_id = va.facultad_id LEFT JOIN programa p ON p.id = va.programa_id  where va.programa_id = :programaId and va.aprobacion_director_programa is null order by va.fecha_creacion desc", nativeQuery = true)
-    List<IAgendaDto> findAllToDirector (@Param("programaId") Long programaId);
+    @Query(value = "SELECT av.id AS id, av.file_name AS fileName, f.name AS faculty, p.name AS program, av.creation_date AS creationDate, av.dean_approval AS deanApproval, av.program_director_approval AS programDirectorApproval " +
+            "FROM agendas_valid av " +
+            "LEFT JOIN faculty f ON f.faculty_id = av.faculty_id " +
+            "LEFT JOIN program p ON p.id = av.program_id " +
+            "WHERE av.program_id = :programId AND av.program_director_approval IS NOT NULL " +
+            "ORDER BY av.creation_date DESC", nativeQuery = true)
+    List<IAgendaDto> findAllForHistoricDirector(@Param("programId") Long programId);
 
-    @Query (value = "select va.id as id, va.nombre_archivo as nombreArchivo, f.name as facultad, p.nombre as programa, va.fecha_creacion as fechaCreacion, va.aprobacion_decano as aprobacionDecano, va.aprobacion_director_programa as aprobacionDirectorPrograma from agendas_valid va LEFT JOIN facultad f ON f.facultad_id = va.facultad_id LEFT JOIN programa p ON p.id = va.programa_id  where va.programa_id = :programaId and va.aprobacion_director_programa is not null order by va.fecha_creacion desc", nativeQuery = true)
-    List<IAgendaDto> findAllForHistoricDirector (@Param("programaId") Long programaId);
+    @Query(value = "SELECT av.id AS id, av.file_name AS fileName, f.name AS faculty, p.name AS program, av.creation_date AS creationDate, av.dean_approval AS deanApproval, av.program_director_approval AS programDirectorApproval " +
+            "FROM agendas_valid av " +
+            "LEFT JOIN faculty f ON f.faculty_id = av.faculty_id " +
+            "LEFT JOIN program p ON p.id = av.program_id " +
+            "WHERE av.faculty_id = :deanId AND av.program_director_approval = 1 AND av.dean_approval IS NULL " +
+            "ORDER BY av.creation_date DESC", nativeQuery = true)
+    List<IAgendaDto> findAllForAproveDecano(@Param("deanId") Long deanId);
 
-
-    @Query(value = "select va.id as id, va.nombre_archivo as nombreArchivo, f.name as facultad, p.nombre as programa, va.fecha_creacion as fechaCreacion, va.aprobacion_decano as aprobacionDecano, va.aprobacion_director_programa as aprobacionDirectorPrograma from agendas_valid va LEFT JOIN facultad f ON f.facultad_id = va.facultad_id LEFT JOIN programa p ON p.id = va.programa_id  where va.facultad_id = :decanoId and va.aprobacion_director_programa =1 and va.aprobacion_decano is null  order by va.fecha_creacion desc", nativeQuery = true)
-    List<IAgendaDto> findAllForAproveDecano (@Param("decanoId") Long decanoId);
-
-    @Query(value = "select va.id as id, va.nombre_archivo as nombreArchivo, f.name as facultad, p.nombre as programa, va.fecha_creacion as fechaCreacion, va.aprobacion_decano as aprobacionDecano, va.aprobacion_director_programa as aprobacionDirectorPrograma from agendas_valid va LEFT JOIN facultad f ON f.facultad_id = va.facultad_id LEFT JOIN programa p ON p.id = va.programa_id  where va.facultad_id = :decanoId and va.aprobacion_director_programa =1 and va.aprobacion_decano is not null  order by va.fecha_creacion desc", nativeQuery = true)
-    List<IAgendaDto> findAllForHistoricoDecano (@Param("decanoId") Long decanoId);
+    @Query(value = "SELECT av.id AS id, av.file_name AS fileName, f.name AS faculty, p.name AS program, av.creation_date AS creationDate, av.dean_approval AS deanApproval, av.program_director_approval AS programDirectorApproval " +
+            "FROM agendas_valid av " +
+            "LEFT JOIN faculty f ON f.faculty_id = av.faculty_id " +
+            "LEFT JOIN program p ON p.id = av.program_id " +
+            "WHERE av.faculty_id = :deanId AND av.program_director_approval = 1 AND av.dean_approval IS NOT NULL " +
+            "ORDER BY av.creation_date DESC", nativeQuery = true)
+    List<IAgendaDto> findAllForHistoricoDecano(@Param("deanId") Long deanId);
 
 }
