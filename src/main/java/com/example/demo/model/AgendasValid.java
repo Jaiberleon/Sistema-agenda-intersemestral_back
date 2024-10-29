@@ -6,41 +6,41 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "agendas_valid")
 public class AgendasValid {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
-    @Column(name = "archivo", columnDefinition = "LONGBLOB")
-    private byte[] archivo;
+    @Column(name = "file", columnDefinition = "LONGBLOB")
+    private byte[] file;
 
-    @Column(name = "nombre_archivo")
-    private String nombreArchivo;
+    @Column(name = "file_name")
+    private String fileName;
 
-    @Column(name = "aprobacion_decano")
-    private Boolean aprobacionDecano;
+    @Column(name = "dean_approval")
+    private Boolean deanApproval;
 
-    @Column(name = "aprobacion_director_programa")
-    private Boolean aprobacionDirectorPrograma;
+    @Column(name = "program_director_approval")
+    private Boolean programDirectorApproval;
 
-    @Column(name = "fecha_creacion")
-    private LocalDateTime fechaCreacion;
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    private LocalDateTime creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity docente;
+    private UserEntity teacher;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "programa_id", nullable = false)
-    private ProgramEntity programa;
+    @JoinColumn(name = "program_id", nullable = false)
+    private ProgramEntity program;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "facultad_id", nullable = false)
-    private FacultyEntity facultad;
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private FacultyEntity faculty;
 }
-
