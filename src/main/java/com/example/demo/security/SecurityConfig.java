@@ -14,37 +14,26 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  {
-/**
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/user/login", "/api/user/register").permitAll()
-                        .anyRequest().authenticated()
+                .authorizeRequests(authorize -> authorize
+                        .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll() // Permitir acceso a Swagger
+                        .anyRequest().authenticated() // Requiere autenticación para las demás rutas
                 )
-                .httpBasic(withDefaults())
-                .csrf(csrf -> csrf.disable());
+                .formLogin(form -> form
+                        .loginPage("/login") // Configura tu página de login
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .permitAll()
+                );
 
         return http.build();
     }
- */
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-            .authorizeHttpRequests(authorize -> authorize
-                    // Permitir el acceso a Swagger UI y su documentación
-                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui/index.html").permitAll()
-                    // Permitir las rutas de login y registro sin autenticación
-                    .requestMatchers("/api/user/login", "/api/user/register").permitAll()
-                    // Todas las demás solicitudes requieren autenticación
-                    .anyRequest().authenticated()
-            )
-            .httpBasic(withDefaults()) // Si deseas autenticación básica, de lo contrario, puedes eliminar esta línea
-            .csrf(csrf -> csrf.disable()); // Deshabilitar CSRF si es necesario
-
-    return http.build();
-}
-@Bean
+ @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
