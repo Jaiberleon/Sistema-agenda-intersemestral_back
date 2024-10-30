@@ -23,12 +23,12 @@ public class AgendasValidServiceImpl implements AgendasValidService {
     private final UserRepository userRepository;
 
     @Override
-    public List<IAgendaDto> getAgendasByUserId(Long userId) {
+    public List<IAgendaDto> findUserAgendas(Long userId) {
         return agendasValidRepository.findAllByuser(userId);
     }
 
     @Override
-        public AgendasValid getAgendaById(Long id) {
+        public AgendasValid findAgendaById(Long id) {
             return agendasValidRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Agenda no encontrada"));
         }
@@ -54,7 +54,7 @@ public class AgendasValidServiceImpl implements AgendasValidService {
     }
 
     @Override
-    public ResponseDto<List<IAgendaDto>> getAgendasToDirector(Long programaId) {
+    public ResponseDto<List<IAgendaDto>> findProgramAgendasForDirector(Long programaId) {
         try {UserEntity user = userRepository.findById(programaId)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(programaId);
@@ -70,7 +70,7 @@ public class AgendasValidServiceImpl implements AgendasValidService {
     }
 
     @Override
-    public ResponseDto<List<IAgendaDto>> getAgendasToDirectorHistorico(Long programaId) {
+    public ResponseDto<List<IAgendaDto>> findHistoricalProgramAgendasForDirector(Long programaId) {
         try {UserEntity user = userRepository.findById(programaId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String role = userRepository.getRole(programaId);

@@ -32,13 +32,13 @@ private final AgendasValidService agendasValidService;
 
     @GetMapping(path = "/user/{userId}")
     public ResponseEntity<List<IAgendaDto>> getAgendasByUser(@PathVariable Long userId) {
-        List<IAgendaDto> agendas = agendasValidService.getAgendasByUserId(userId);
+        List<IAgendaDto> agendas = agendasValidService.findUserAgendas(userId);
         return ResponseEntity.ok(agendas);
     }
 
     @GetMapping(path = "/download/{id}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
-        AgendasValid agenda = agendasValidService.getAgendaById(id);
+        AgendasValid agenda = agendasValidService.findAgendaById(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" +agenda.getFileName())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -48,13 +48,13 @@ private final AgendasValidService agendasValidService;
 
     @GetMapping(path = "/agenprograma/{programaId}")
     public ResponseDto<List<IAgendaDto>> getAgendasToDirector (@PathVariable Long programaId) {
-        return agendasValidService.getAgendasToDirector(programaId);
+        return agendasValidService.findProgramAgendasForDirector(programaId);
 
     }
 
     @GetMapping(path = "/agenprogramahistorico/{programaId}")
     public ResponseDto<List<IAgendaDto>> getAgendasToDirectorHistorico (@PathVariable Long programaId) {
-        return agendasValidService.getAgendasToDirectorHistorico(programaId);
+        return agendasValidService.findHistoricalProgramAgendasForDirector(programaId);
 
     }
 }

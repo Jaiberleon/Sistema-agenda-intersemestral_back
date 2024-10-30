@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface AgendasValidService {
 
-    List<IAgendaDto> getAgendasByUserId(Long userId);
-    AgendasValid getAgendaById(Long id);
     ResponseDto<AgendasValid> saveAgenda(MultipartFile file, Long userId, String facultad, String programa);
-    ResponseDto<List<IAgendaDto>> getAgendasToDirector(Long programaId);
-    ResponseDto<List<IAgendaDto>> getAgendasToDirectorHistorico(Long programaId);
+    List<IAgendaDto> findUserAgendas(Long userId);
+    AgendasValid findAgendaById(Long id);
+    ResponseDto<List<IAgendaDto>> findProgramAgendasForDirector(Long programaId);
+    ResponseDto<List<IAgendaDto>> findHistoricalProgramAgendasForDirector(Long programaId);
 }
