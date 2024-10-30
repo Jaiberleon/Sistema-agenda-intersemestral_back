@@ -13,6 +13,10 @@ public class ConstanResponses {
     public static final String AGENDA_CREATED_CORRECTLY = "Agenda created correctly";
     public static final String Dean = "Decano";
     public static final String APROVE_DEAN = "Update state aprove dean";
+    public static final String INCORRECT_PASSWORD = "INCORRECT PASSWORD";
+    public static final String ONE_OR_MORE_REGISTERS_NOT_FOUND = "ONE OR MORE REGISTERS NOT FOUND";
+    public static final String VALIDATE_THE_IDENTIFICATION_NUMBER_IS_ALREADY_REGISTERED= "Validate the identification number is already registered";
+    public static final String EMAIL_ALREADY_REGISTER= "Email already registered";
 
 
 
