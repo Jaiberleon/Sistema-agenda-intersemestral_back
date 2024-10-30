@@ -11,6 +11,9 @@ public class ConstanResponses {
     public static final String USER_NOT_FOUND = "User not found";
     public static final String AGENDA_NOT_FOUND = "Agenda not found";
     public static final String AGENDA_CREATED_CORRECTLY = "Agenda created correctly";
+    public static final String Dean = "Decano";
+    public static final String APROVE_DEAN = "Update state aprove dean";
+
 
 
 }
