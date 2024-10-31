@@ -16,7 +16,7 @@ public class AgendasValid {
     private Long id;
 
     @Lob
-    @Column(name = "file", columnDefinition = "LONGBLOB")
+    @Column(name = "file")
     private byte[] file;
 
     @Column(name = "file_name")
