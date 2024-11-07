@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ProgramaRepository extends JpaRepository<ProgramEntity,Long> {
 
-    @Query(value = "SELECT p.id AS id, p.name AS name FROM program p WHERE p.faculty_id = :facultyId", nativeQuery = true)
+    @Query(value = "SELECT p.program_id AS id, p.name AS name FROM program p WHERE p.faculty_id = :facultyId", nativeQuery = true)
     List<IProgramDto> findByFacultadId (@Param("facultyId") Long facultadId);
 
     @Query(value = "SELECT f.faculty_id AS facultyId, f.name AS name FROM faculty f", nativeQuery = true)
